@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form Validation Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .error {
+      color: red;
+      font-size: 0.9rem;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Contact Form</h2>
+  <form id="contactForm" novalidate>
+    <div class="form-group">
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" />
+      <div id="nameError" class="error"></div>
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email:</label><br />
+      <input type="text" id="email" name="email" />
+      <div id="emailError" class="error"></div>
+    </div>
+    
+    <button type="submit">Submit</button>
+    <div id="successMessage" class="success"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const successMessage = document.getElementById("successMessage");
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent actual submission
+
+      let isValid = true;
+      nameError.textContent = "";
+      emailError.textContent = "";
+      successMessage.textContent = "";
+
+      const nameValue = nameInput.value.trim();
+      const emailValue = emailInput.value.trim();
+
+      // Name validation
+      if (nameValue === "") {
+        nameError.textContent = "Name is required.";
+        isValid = false;
+      }
+
+      // Email validation
+      if (emailValue === "") {
+        emailError.textContent = "Email is required.";
+        isValid = false;
+      } else if (!emailRegex.test(emailValue)) {
+        emailError.textContent = "Please enter a valid email address.";
+        isValid = false;
+      }
+
+      // Final output
+      if (isValid) {
+        successMessage.textContent = "Form submitted successfully!";
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
